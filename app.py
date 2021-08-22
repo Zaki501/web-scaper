@@ -1,30 +1,32 @@
 import argparse
 import re
 import sys
+
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 
 def parse_args():
-    """ returns the parse arguments"""
-    parser = argparse.ArgumentParser(description='Screenshot a website.')
-    parser.add_argument('address', type=str, help='a web URL')
+    """returns the parse arguments"""
+    parser = argparse.ArgumentParser(description="Screenshot a website.")
+    parser.add_argument("address", type=str, help="a web URL")
     args = parser.parse_args()
     return args
 
 
 def valid_address(url: str):
-    """ Checks for http/https format. """
-    return bool(re.search('http', url))
+    """Checks for http/https format."""
+    return bool(re.search("http", url))
 
 
 def screenshot_website(browser, url: str):
-    """ Screenshot site"""
+    """Screenshot site"""
     browser.get(url)
-    browser.get_screenshot_as_file('output.png')
+    browser.get_screenshot_as_file("output.png")
 
 
 def main():
+
     """Main function"""
     user_input = parse_args()
     url = user_input.address
@@ -45,7 +47,7 @@ def main():
     print("> Done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 # check if input matches condition
 # regex = '/^(https?:\/\/)/i'
