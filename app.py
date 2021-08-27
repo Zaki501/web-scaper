@@ -14,7 +14,7 @@ def parse_args():
     return args
 
 
-def valid_address(url: str):
+def valid_address(url: str) -> bool:
     """Checks for http/https format."""
     return bool(re.search("http", url))
 
@@ -26,14 +26,13 @@ def screenshot_website(browser, url: str):
 
 
 def main():
-
     """Main function"""
     user_input = parse_args()
     url = user_input.address
     if not valid_address(url):
         sys.exit("Invalid input - use http/https")
 
-    print("test")
+    print("Getting Screenshot...")
 
     path = "/usr/bin/geckodriver"
     options = Options()
@@ -41,7 +40,6 @@ def main():
     browser = webdriver.Firefox(executable_path=path, options=options)
 
     screenshot_website(browser, user_input.address)
-
     browser.quit()
 
     print("> Done")
