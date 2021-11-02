@@ -1,7 +1,14 @@
 geckodriver.log
 output.png
-.pylintrc
 
+test.py
+notes.txt
+
+.vscode
+.pre-commit-config.yaml
+.python-version
+.setup.cfg
+.pylintrc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
