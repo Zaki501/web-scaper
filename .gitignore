@@ -3,6 +3,9 @@ output.png
 
 test.py
 notes.txt
+data.txt
+item_container.txt
+items.txt
 
 .vscode
 .pre-commit-config.yaml
