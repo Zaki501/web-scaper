@@ -9,10 +9,16 @@ def search_amazon_item(driver, item):
     return
 
 
-def get_item_data(driver):
-    """Grab the item data"""
-    # items_container = driver.find_elements_by_xpath("//div[@class='s-main-slot s-result-list']")
-    # items = driver.find_elements_by_xpath("//div[@class='s-result-item s-asin']")
+def get_item_price(driver):
+    """On items page, get the text data"""
+    # title =  driver.find_element_by_id('productTitle')
+    price = driver.find_element_by_css_selector(".a-price")
+    return price.text
+
+
+def get_item_search_data(driver):
+    """After searching for an item, get all the text for each result"""
+
     items_container = driver.find_elements_by_css_selector(".s-main-slot.s-result-list")
     items = driver.find_elements_by_css_selector(".s-result-item.s-asin")
     print(items_container, items)

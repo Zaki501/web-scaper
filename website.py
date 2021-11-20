@@ -1,6 +1,19 @@
-import json
 import re
 import sys
+
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+
+from constants import PATH_TO_DRIVER
+
+
+def init_driver():
+    print("configure program")
+    options = Options()
+    # options.headless = True
+    driver = webdriver.Firefox(executable_path=PATH_TO_DRIVER, options=options)
+    print("start")
+    return driver
 
 
 def _valid_address(url: str) -> bool:
@@ -15,9 +28,9 @@ def go_to_website(browser, url):
     browser.get(url)
 
 
-def take_screenshot(browser):
+def take_screenshot(browser, output_file):
     """Screenshot the current browser"""
-    browser.get_screenshot_as_file("output.png")
+    browser.get_screenshot_as_file(output_file)
 
 
 def go_to_website_and_take_screenshot(url, browser):
@@ -29,17 +42,5 @@ def go_to_website_and_take_screenshot(url, browser):
     browser.quit()
 
 
-def save_to_text_file(data, output_file: str = "data.txt"):
-    with open(output_file, "w") as fp:
-        fp.write(str(data))
-
-
-def save_to_json_file(data, output_file):
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-
-
 if __name__ == "__main__":
     print("test save to txt file:")
-    info = "fggggggggggggggggsh"
-    save_to_text_file(info)

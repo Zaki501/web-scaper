@@ -13,3 +13,10 @@ def parse_args():
     #      "--test2", type=str, help="store string"
     # )
     return parser.parse_args()
+
+
+# --item-list -> enter item, search amazon for an item, return a list
+# --track -> enter item, check its price every x minutes, email alert
+
+# debugging with pdb
+# logging with logging module
