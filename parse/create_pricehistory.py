@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from database import compare_to_previous_amount
 from price_parser import parse_price
+
+from record.database import compare_to_previous_amount
 
 
 @dataclass

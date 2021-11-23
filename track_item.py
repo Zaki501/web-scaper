@@ -4,9 +4,8 @@
 # use crontab to run regularly
 import time
 
-from create_pricehistory import create_pricehistory_instance
-
 from constants import ITEM
+from parse.create_pricehistory import create_pricehistory_instance
 from search.amazon.search import get_item_price
 from search.website import go_to_website, init_driver
 
