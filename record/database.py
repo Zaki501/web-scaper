@@ -94,13 +94,14 @@ con.commit()
 
 # cur.execute("SELECT * FROM items WHERE name=:name", {'name': 'coffee'})
 # print(cur.fetchall())
-a = cur.execute(
-    "SELECT PRICE FROM items WHERE name=:name ORDER BY date DESC LIMIT 1",
-    {"name": "coffee"},
-)
-b = a.fetchall()
+# a = cur.execute(
+#     "SELECT PRICE FROM items WHERE name=:name ORDER BY date DESC LIMIT 1",
+#     {"name": "coffee"},
+# )
+# b = a.fetchall()
 
-print(b)
+# print(b)
+print("init database")
 
 # We can also close the connection if we are done with it.
 # Just be sure any changes have been committed or they will be lost.

@@ -1,15 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
-from amazon.web_scraper.search import (
-    get_element_text,
-    get_item_search_data,
-    search_amazon_item,
-)
 from constants import AMAZON, PATH_TO_DRIVER
 from parse_arguments import parse_args
 from save_data import save_to_json_file, save_to_text_file
-from website import go_to_website, take_screenshot
+from search import get_element_text, get_item_search_data, search_amazon_item
+from search.website import go_to_website, take_screenshot
 
 
 def main(args):

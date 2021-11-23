@@ -42,5 +42,12 @@ def go_to_website_and_take_screenshot(url, browser):
     browser.quit()
 
 
+def get_element_text(item_list):
+    # new_list = []
+    # for idx, element in item_list:
+    #     return {idx: element.text}
+    return [{idx: element.text} for (idx, element) in enumerate(item_list)]
+
+
 if __name__ == "__main__":
     print("test save to txt file:")

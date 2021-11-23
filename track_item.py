@@ -3,27 +3,12 @@
 # every x minutes, get the price. If it is below a certain price, send an email
 # use crontab to run regularly
 import time
-from dataclasses import dataclass
-from datetime import datetime
 
-from price_parser import parse_price
+from create_pricehistory import create_pricehistory_instance
 
-from amazon.item_tracker.database import compare_to_previous_amount
-from amazon.web_scraper.search import get_item_price
 from constants import ITEM
-from website import go_to_website, init_driver
-
-
-@dataclass
-class PriceHistory:
-    name: str
-    date: str
-    price: float
-    currency: str
-    trend: int
-
-
-# asdict( class instance )
+from search.amazon.search import get_item_price
+from search.website import go_to_website, init_driver
 
 
 def the_time():
@@ -32,29 +17,18 @@ def the_time():
     print(current_time)
 
 
-def get_float_amount_and_currency(price_string):
-    """Return the price as a float and currency symbol as a string"""
-    price = parse_price(price_string)
-    return (float(price.amount), price.currency)
-
-
 def record_price(browser, url):
     """Return a PriceHistory instance from a URL"""
     # go to website
     go_to_website(browser, url)
 
     # parse data from page
-    price = get_item_price(browser)
-    (amount, currency) = get_float_amount_and_currency(price)
-    trend = compare_to_previous_amount(url)
+    price_string = get_item_price(browser)
 
-    return PriceHistory(
-        name=url,
-        date=datetime.datetime.now(),
-        price=amount,
-        currency=currency,
-        trend=trend,
-    )
+    # create PriceHistory
+    data = create_pricehistory_instance(url, price_string)
+    print(data)
+    return data
 
 
 def main():
@@ -76,7 +50,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
     print("test")
+    main()
     # https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds
     # json file recordwed as bytes, decode it
