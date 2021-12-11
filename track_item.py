@@ -1,55 +1,52 @@
-# enter item url
-# confirm the item
-# every x minutes, get the price. If it is below a certain price, send an email
-# use crontab to run regularly
-import time
-
-from constants import ITEM
-from parse.create_pricehistory import create_pricehistory_instance
+from classes import Database
+from constants import DB_PATH, ITEM
+from parse.create_pricehistory import create_pricehistory
+from record.database import add_to_item_database
 from search.amazon.search import get_item_price
-from search.website import go_to_website, init_driver
+from search.website import go_to_website, init_driver, parse_url, url_validator
 
 
-def the_time():
-    t = time.localtime()
-    current_time = time.strftime("%H:%M:%S", t)
-    print(current_time)
+def begin_tracking(url: str):
+    """If the item is not found in the database, run this func"""
+    # (optional) confirm item
+    # sqlite3 - one table for item + id, another for pricehistory
 
+    ## Go to valid url
+    # validate address
+    address = parse_url(url)
+    if not url_validator(address):
+        raise ValueError("Invalid Url - Please enter a full address")
 
-def record_price(browser, url):
-    """Return a PriceHistory instance from a URL"""
-    # go to website
-    go_to_website(browser, url)
+    ## Scrape data
+    with init_driver() as browser:
+        # Go to website, scrape data
+        go_to_website(browser, address.string)
+        price_string = get_item_price(browser)
 
-    # parse data from page
-    price_string = get_item_price(browser)
+    ## Parse and record Data
+    with Database(DB_PATH) as db:
+        data = create_pricehistory(db.cur, address.string, price_string)
+        # if sql table doesnt exis, create it
+        db.cur.execute(
+            """CREATE TABLE IF NOT EXISTS items (
+            name text,
+            date text,
+            price real,
+            currency text,
+            trend integer
+            )"""
+        )
+        # add pricehistory to table
+        add_to_item_database(db.cur, data)
+        x = db.cur.execute("SELECT * FROM items")
+        print(x.fetchall())
 
-    # create PriceHistory
-    data = create_pricehistory_instance(url, price_string)
     print(data)
-    return data
-
-
-def main():
-    # setup (first time running):
-    # enter and confirm the item
-    # choose target price
-    # setup the cronjob for regular price check
-
-    # recurring:
-    # go to address
-    # grab price
-    # create class instance: url, date, price, currency, trend
-    # send email when it goes below target price
-    the_time()
-    browser = init_driver()
-    record_price(browser, ITEM)
-    print("~ DONE")
+    print("///DONE")
     return
 
 
 if __name__ == "__main__":
-    print("test")
-    main()
-    # https://stackoverflow.com/questions/474528/what-is-the-best-way-to-repeatedly-execute-a-function-every-x-seconds
-    # json file recordwed as bytes, decode it
+    begin_tracking(ITEM)
+    # print(datetime.datetime.now().strftime("%Y-%m-%d"))
+    pass

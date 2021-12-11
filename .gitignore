@@ -2,12 +2,14 @@ geckodriver.log
 output.png
 /output
 
+zz.py
 test.py
 notes.txt
 data.txt
 item_container.txt
 items.txt
 *.json
+*.db
 
 .vscode
 .pre-commit-config.yaml
