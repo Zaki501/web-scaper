@@ -50,11 +50,6 @@ def parse_url(url: str) -> Url:
     )
 
 
-# dont need url class, validate url, if true
-def validate_address(url) -> Url:
-    """Check for https, and for amazon/ebay"""
-
-
 def go_to_website(browser: WebDriver, url: str):
     """Check if the website is valid, then goes to it"""
     # if not _valid_address(url):
@@ -91,5 +86,4 @@ def test():
 if __name__ == "__main__":
     # x = init_driver()
     # print(type(x))
-    s = parse_url(ITEM)
-    print(s)
+    pass

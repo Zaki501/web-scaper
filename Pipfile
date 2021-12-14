@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 selenium = "*"
 price-parser = "*"
+flask = "*"
 
 [dev-packages]
 black = "==21.7b0"

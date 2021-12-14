@@ -1,19 +1,19 @@
 from classes import Database
-from constants import DB_PATH, ITEM
+from constants import DB_PATH
 from parse.create_pricehistory import create_pricehistory
 from record.database import add_to_item_database
 from search.amazon.search import get_item_price
 from search.website import go_to_website, init_driver, parse_url, url_validator
 
 
-def begin_tracking(url: str):
-    """If the item is not found in the database, run this func"""
+def begin_tracking(amazon_url: str):
+    """If valid URl, and its amazon URl, Run this function"""
     # (optional) confirm item
     # sqlite3 - one table for item + id, another for pricehistory
 
     ## Go to valid url
     # validate address
-    address = parse_url(url)
+    address = parse_url(amazon_url)
     if not url_validator(address):
         raise ValueError("Invalid Url - Please enter a full address")
 
@@ -47,6 +47,8 @@ def begin_tracking(url: str):
 
 
 if __name__ == "__main__":
-    begin_tracking(ITEM)
+    # begin_tracking(ITEM)
     # print(datetime.datetime.now().strftime("%Y-%m-%d"))
+    # x = urlparse(ITEM)
+    # print(x)
     pass

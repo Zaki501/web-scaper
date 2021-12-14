@@ -1,6 +1,5 @@
 import sqlite3
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
@@ -13,16 +12,11 @@ class PriceHistory:
 
 
 @dataclass
-class Url:
-    """Original url string, plus the 6 outputs from urlparse.
-    Params and Query can be str or none"""
+class AmazonUrl:
+    """full address and asin"""
 
-    string: str
-    scheme: str
-    netloc: str
-    path: str
-    params: Optional[str]
-    query: Optional[str]
+    address: str
+    asin: str
 
 
 class Database(object):
