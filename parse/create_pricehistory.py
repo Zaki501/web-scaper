@@ -51,14 +51,12 @@ def create_pricehistory(cursor: Cursor, url: str, price_string: str) -> PriceHis
     # price = get_item_price(browser)
     (amount, currency) = get_float_amount_and_currency(price_string)
     # trend = compare_to_previous_amount(cursor, url, amount)
-    trend = 2
 
     return PriceHistory(
         name=url,
         date=datetime.now().strftime("%Y-%m-%d"),
         price=amount,
         currency=currency,
-        trend=trend,
     )
 
 

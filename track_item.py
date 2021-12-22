@@ -2,18 +2,20 @@ from classes import Database
 from constants import DB_PATH
 from parse.create_pricehistory import create_pricehistory
 from record.database import add_to_item_database
-from search.amazon.search import get_item_price
-from search.website import go_to_website, init_driver, parse_url, url_validator
+from search.amazon.search import _get_item_price, amazon_address, create_amazonurl
+from search.website import go_to_website, init_driver, url_validator
 
 
-def begin_tracking(amazon_url: str):
+def begin_tracking(url: str):
     """If valid URl, and its amazon URl, Run this function"""
-    # (optional) confirm item
-    # sqlite3 - one table for item + id, another for pricehistory
+    # User Enters a Url
+    # Go to amazon page, take ImgSRC, title and Price
+    # send image/title/price, so user can confirm
+    # if correct, store data, and begin recurring price check
 
     ## Go to valid url
     # validate address
-    address = parse_url(amazon_url)
+    address = create_amazonurl(url)
     if not url_validator(address):
         raise ValueError("Invalid Url - Please enter a full address")
 
@@ -21,7 +23,7 @@ def begin_tracking(amazon_url: str):
     with init_driver() as browser:
         # Go to website, scrape data
         go_to_website(browser, address.string)
-        price_string = get_item_price(browser)
+        price_string = _get_item_price(browser)
 
     ## Parse and record Data
     with Database(DB_PATH) as db:
@@ -46,9 +48,17 @@ def begin_tracking(amazon_url: str):
     return
 
 
+def track_item_main(url: str):
+    # enter url
+    if amazon_address(url):
+        print("true")
+        pass
+    else:
+        print("respond with invalid address")
+    pass
+
+
 if __name__ == "__main__":
     # begin_tracking(ITEM)
-    # print(datetime.datetime.now().strftime("%Y-%m-%d"))
-    # x = urlparse(ITEM)
-    # print(x)
-    pass
+    # pass
+    track_item_main("https://old.reddit.com/")

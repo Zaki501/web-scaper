@@ -4,19 +4,23 @@ from dataclasses import dataclass
 
 @dataclass
 class PriceHistory:
+    """Data ready to be stored in the Database"""
+
     name: str
     date: str
     price: float
     currency: str
-    trend: int
 
 
 @dataclass
 class AmazonUrl:
-    """full address and asin"""
+    """Data gathered from scraping amazon item page"""
 
-    address: str
+    string: str
     asin: str
+    title: str
+    image_src: str
+    price: str
 
 
 class Database(object):

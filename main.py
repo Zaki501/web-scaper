@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, request
 
+# from flask_cors import CORS
 # from flask import url_for
 # from track_item import begin_tracking
 
@@ -16,6 +17,7 @@ def main(user_url: str):
 
 
 app = Flask(__name__)
+# CORS(app)
 
 
 @app.route("/hello")
@@ -23,21 +25,34 @@ def hello():
     return "<h1> Hello world!1</h1>"
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/test", methods=["GET", "POST"])
 def test():
     if request.method == "GET":
-        return render_template("form.html")
+        print("get request to /test")
+        return "/test response from flask"
+
+
+@app.route("/", methods=["GET", "POST"])
+def a():
+    if request.method == "GET":
+        # return render_template("form.html")
+        return "get request to root/"
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        print(name, email)
-        return (name, email)
+        print("post method received")
+
+        # JSON stored in data variable
+        data = request.json
+        # print(data["name"])
+        print(data)
+        return {"response": "/ response from flask"}
 
 
-if __name__ == "__main__":
-    # args = parse_args()
-    # main(args)
-    print("/// MAIN ///")
-    # main()
-    app.run(host="127.0.0.1", port=8080, debug=True)
-    # pass
+app.run(host="127.0.0.1", port=5000, debug=False)
+
+# if __name__ == "__main__":
+#     # args = parse_args()
+#     # main(args)
+#     print("/// MAIN ///")
+#     # main()
+#     app.run(host="127.0.0.1", port=5000, debug=False)
+#     # pass
