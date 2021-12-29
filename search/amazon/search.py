@@ -2,7 +2,7 @@ import re
 
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-from classes import AmazonUrl
+from classes import AmazonUrl, ItemData
 
 
 def amazon_address(url: str) -> bool:
@@ -40,6 +40,14 @@ def _get_item_title(driver: WebDriver):
     return driver.find_element_by_id("productTitle").text
 
 
+def _validate_amazon_url(url: str):
+    """Checks for asin in Url
+    Throws error if there isn't"""
+    asin = re.search("/[dg]p/([^/]+)", url, flags=re.IGNORECASE)
+    if asin is None:
+        raise ValueError("No asin found in Url")
+
+
 def _get_amazon_asin(url: str) -> str:
     """Checks if user url has an asin
     (10digit number id, that all amazon items have)"""
@@ -64,6 +72,18 @@ def create_amazonurl(driver: WebDriver, url: str) -> AmazonUrl:
     price_string = _get_item_price(driver)
     return AmazonUrl(
         string=url, asin=asin, title=title, image_src=image_src, price=price_string
+    )
+
+
+def get_confirmation_data(driver: WebDriver) -> ItemData:
+    """Return Image, title, price"""
+    img = _get_image_src(driver)
+    title = _get_item_title(driver)
+    price = _get_item_price(driver)
+    return ItemData(
+        img_src=img,
+        title=title,
+        price=price,
     )
 
 

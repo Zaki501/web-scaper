@@ -1,4 +1,8 @@
+from dataclasses import asdict
+
 from flask import Flask, request
+
+from track_item import item_confirmation
 
 # from flask_cors import CORS
 # from flask import url_for
@@ -20,9 +24,14 @@ app = Flask(__name__)
 # CORS(app)
 
 
-@app.route("/hello")
+@app.route("/hello", methods=["GET", "POST"])
 def hello():
-    return "<h1> Hello world!1</h1>"
+    if request.method == "POST":
+        data = request.json
+        url = data
+        response = item_confirmation(url)
+        print(response)
+    return asdict(response)
 
 
 @app.route("/test", methods=["GET", "POST"])
@@ -34,16 +43,44 @@ def test():
 
 @app.route("/", methods=["GET", "POST"])
 def a():
+    """Main entry point
+
+    For post requests, select path with json"""
+
     if request.method == "GET":
         # return render_template("form.html")
         return "get request to root/"
+
     if request.method == "POST":
         print("post method received")
 
         # JSON stored in data variable
         data = request.json
-        # print(data["name"])
         print(data)
+        print(data["name"])
+        if data["form"] == "one":
+            print("form one")
+
+        if data["form"] == "two":
+            print("form two")
+        if request.method == "POST" and "pid" in request.form:
+            pass
+        # # exit early
+        # if data is invalid:
+        #     return "response: incorrect url, send a valid amazon url"
+
+        # # continue on
+        # scrape_item():
+        #     return image, title, price
+        # # sending response, for confirmation
+        # if no:
+        #     exit early
+        # else:
+        #   begin_tracking()
+
+        # dump post data to text file
+        with open("output/frontend_inputs.txt", "a") as fp:
+            fp.write(f"\n{data}")
         return {"response": "/ response from flask"}
 
 

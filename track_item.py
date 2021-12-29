@@ -2,11 +2,17 @@ from classes import Database
 from constants import DB_PATH
 from parse.create_pricehistory import create_pricehistory
 from record.database import add_to_item_database
-from search.amazon.search import _get_item_price, amazon_address, create_amazonurl
+from search.amazon.search import (
+    _get_item_price,
+    _validate_amazon_url,
+    amazon_address,
+    create_amazonurl,
+    get_confirmation_data,
+)
 from search.website import go_to_website, init_driver, url_validator
 
 
-def begin_tracking(url: str):
+def regular_tracking(url: str):
     """If valid URl, and its amazon URl, Run this function"""
     # User Enters a Url
     # Go to amazon page, take ImgSRC, title and Price
@@ -48,17 +54,28 @@ def begin_tracking(url: str):
     return
 
 
+def item_confirmation(url: str) -> str:
+    """Return img src, title and price string"""
+    # confirm valid amazon url
+    _validate_amazon_url(url)
+    # open driver, go to website
+    with init_driver() as browser:
+        go_to_website(browser, url)
+        data = get_confirmation_data(browser)
+    # extract and return data
+    return data
+
+
 def track_item_main(url: str):
     # enter url
-    if amazon_address(url):
-        print("true")
-        pass
-    else:
+    if not amazon_address(url):
         print("respond with invalid address")
-    pass
 
 
 if __name__ == "__main__":
     # begin_tracking(ITEM)
     # pass
-    track_item_main("https://old.reddit.com/")
+    a = "https://www.amazon.co.uk/gp/product/B01GVLNUO4/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1"
+    # x = item_confirmation(a)
+    # print(x)
+    _validate_amazon_url(a)

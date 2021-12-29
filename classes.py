@@ -3,6 +3,15 @@ from dataclasses import dataclass
 
 
 @dataclass
+class ItemData:
+    """Data to be returned to user, for confirmation"""
+
+    img_src: str
+    title: str
+    price: str
+
+
+@dataclass
 class PriceHistory:
     """Data ready to be stored in the Database"""
 
