@@ -1,18 +1,19 @@
-from classes import Database
+from typing import List
+
+from classes import Database, PriceHistory
 from constants import DB_PATH
 from parse.create_pricehistory import create_pricehistory
 from record.database import add_to_item_database
-from search.amazon.search import (
+from search.amazon.search import (  # amazon_address,
     _get_item_price,
     _validate_amazon_url,
-    amazon_address,
     create_amazonurl,
     get_confirmation_data,
 )
 from search.website import go_to_website, init_driver, url_validator
 
 
-def regular_tracking(url: str):
+def item_tracking(url: str):
     """If valid URl, and its amazon URl, Run this function"""
     # User Enters a Url
     # Go to amazon page, take ImgSRC, title and Price
@@ -66,10 +67,26 @@ def item_confirmation(url: str) -> str:
     return data
 
 
-def track_item_main(url: str):
-    # enter url
-    if not amazon_address(url):
-        print("respond with invalid address")
+def regular_tracking(list_of_urls: List[str]) -> List[PriceHistory]:
+    """Given a list of url strings, create a PriceHistory instance for each one"""
+    # open browser
+    # init new list
+    # for each url in list:
+    #   - navigate to url
+    #   - extract data
+    #   - add to new_list
+    # give list to database
+
+    ### before running, look into avoiding amazon ip blocking
+    list_of_pricehistory_instances = []
+    with init_driver() as browser:
+        for url in list_of_urls:
+            go_to_website(url)
+            price_string = _get_item_price(browser)
+            data = create_pricehistory(url, price_string)
+            list_of_pricehistory_instances.append(data)
+
+    return list_of_pricehistory_instances
 
 
 if __name__ == "__main__":
@@ -79,3 +96,5 @@ if __name__ == "__main__":
     # x = item_confirmation(a)
     # print(x)
     _validate_amazon_url(a)
+    with init_driver() as browser:
+        print(browser.execute_script("return navigator.userAgent"))

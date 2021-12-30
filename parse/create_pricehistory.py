@@ -44,7 +44,7 @@ def compare_to_previous_amount(cursor: Cursor, url: str, current_amount: float) 
         return -1
 
 
-def create_pricehistory(cursor: Cursor, url: str, price_string: str) -> PriceHistory:
+def create_pricehistory(url: str, price_string: str) -> PriceHistory:
     """Return a PriceHistory instance from a URL and price string"""
 
     # parse data from page
