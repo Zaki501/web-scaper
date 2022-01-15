@@ -19,7 +19,7 @@ def add_to_item_database(cur: Cursor, item: PriceHistory):
     cur.execute(
         "INSERT INTO items VALUES (:name, :date, :price, :currency, :trend)",
         {
-            "name": item.name,
+            "name": item.title,
             "date": item.date,
             "price": item.price,
             "currency": item.currency,

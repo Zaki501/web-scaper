@@ -1,95 +1,71 @@
-from dataclasses import asdict
+# main functions, to be imported to app
+# track item(asin) -> PriceHistory, sent to DB
+# regular tracking -> list of asins, for each item,
+import re
 
-from flask import Flask, request
-
-from track_item import item_confirmation
-
-# from flask_cors import CORS
-# from flask import url_for
-# from track_item import begin_tracking
+from constants import AMAZON
+from FirefoxWebDriver import FireFoxBrowser
+from PriceHistory import PriceHistory
 
 
-def main(user_url: str):
-    """Program starts here"""
-    # valid url?
-    #     if so, parse
-    #     else, throw error
-    # amazon or ebay url?
-    #     if not amazon/ebay, throw Error
-    #     else begin amazon or ebay function
+def extract_asin(url: str):
+    """Extract asin from url"""
+    asin = re.search("/[dg]p/([^/]+)", url, flags=re.IGNORECASE)
+    if asin is None:
+        raise ValueError("No asin found in Url")
+    return asin.group(1)
+
+
+def item_confirmation(url: str) -> str:
+    """Return img src, title and price string"""
+
+    ## if confirmed add item with asin to database
+
     pass
 
 
-app = Flask(__name__)
-# CORS(app)
+def track_item(browser: FireFoxBrowser, asin: str):
+    """Get data for one amazon item"""
+    address = f"{AMAZON}{asin}"
+    browser.get(address)
+    # change pricehistory to take in driver and asin
+    return PriceHistory(browser, asin)
 
 
-@app.route("/hello", methods=["GET", "POST"])
-def hello():
-    if request.method == "POST":
-        data = request.json
-        url = data
-        response = item_confirmation(url)
-        print(response)
-    return asdict(response)
+def regular_tracking(list_of_asins):
+    # This will be ran once a day
+    # get list of all asins from database
+    # for each asin:
+    #   open browser, and create pricehistory
+    #   close browser
+    #   open database
+    #   add to database
+    #   close
+    #   sleep for n seconds
+
+    # error if item isnt availible
+    # custon excpetions
+
+    # list of asins will be taken from database
+
+    for asin in list_of_asins:
+        browser = FireFoxBrowser(headless=False, random_user_agent=True)
+        with browser:
+
+            item = track_item(browser, asin)
+            item.__dict__
+
+            # create list, add items to it
+            # add to database
+
+    pass
 
 
-@app.route("/test", methods=["GET", "POST"])
-def test():
-    if request.method == "GET":
-        print("get request to /test")
-        return "/test response from flask"
-
-
-@app.route("/", methods=["GET", "POST"])
-def a():
-    """Main entry point
-
-    For post requests, select path with json"""
-
-    if request.method == "GET":
-        # return render_template("form.html")
-        return "get request to root/"
-
-    if request.method == "POST":
-        print("post method received")
-
-        # JSON stored in data variable
-        data = request.json
-        print(data)
-        print(data["name"])
-        if data["form"] == "one":
-            print("form one")
-
-        if data["form"] == "two":
-            print("form two")
-        if request.method == "POST" and "pid" in request.form:
-            pass
-        # # exit early
-        # if data is invalid:
-        #     return "response: incorrect url, send a valid amazon url"
-
-        # # continue on
-        # scrape_item():
-        #     return image, title, price
-        # # sending response, for confirmation
-        # if no:
-        #     exit early
-        # else:
-        #   begin_tracking()
-
-        # dump post data to text file
-        with open("output/frontend_inputs.txt", "a") as fp:
-            fp.write(f"\n{data}")
-        return {"response": "/ response from flask"}
-
-
-app.run(host="127.0.0.1", port=5000, debug=False)
-
-# if __name__ == "__main__":
-#     # args = parse_args()
-#     # main(args)
-#     print("/// MAIN ///")
-#     # main()
-#     app.run(host="127.0.0.1", port=5000, debug=False)
-#     # pass
+if __name__ == "__main__":
+    x = "https://www.amazon.co.uk/dp/B07PPTN43Y"
+    browser = FireFoxBrowser(headless=False, random_user_agent=True)
+    with browser:
+        asin = extract_asin(x)
+        item = track_item(browser, asin)
+        print(item.__dict__)
+    pass

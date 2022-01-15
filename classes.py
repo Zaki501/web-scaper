@@ -12,16 +12,6 @@ class ItemData:
 
 
 @dataclass
-class PriceHistory:
-    """Data ready to be stored in the Database"""
-
-    name: str
-    date: str
-    price: float
-    currency: str
-
-
-@dataclass
 class AmazonUrl:
     """Data gathered from scraping amazon item page"""
 

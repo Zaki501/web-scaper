@@ -1,5 +1,6 @@
 PATH_TO_DRIVER = "/usr/bin/geckodriver"
-AMAZON = "https://www.amazon.co.uk/"
+AMAZON = "https://www.amazon.co.uk/dp/"
 EBAY = "https://www.ebay.co.uk/"
 DB_PATH = "database.db"
 ITEM = "https://www.amazon.co.uk/Vitamin-Maximum-Strength-Supplement-Softgels/dp/B072L235Z5/ref=sr_1_5?keywords=vitamin+d&qid=1637159981&sr=8-5"
+PROXY = "https://hidemy.name/en/proxy-list/?country=GB&type=s&anon=4#list"
