@@ -20,7 +20,6 @@ def item_confirmation(url: str) -> str:
     """Return img src, title and price string"""
 
     ## if confirmed add item with asin to database
-
     pass
 
 
@@ -55,8 +54,7 @@ def regular_tracking(list_of_asins):
             item = track_item(browser, asin)
             item.__dict__
 
-            # create list, add items to it
-            # add to database
+            # output list of pricehistory, add to database (use sqlalchemy)
 
     pass
 

@@ -8,6 +8,8 @@ selenium = "*"
 price-parser = "*"
 flask = "*"
 flask-cors = "*"
+psycopg2-binary = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 black = "==21.7b0"
@@ -18,4 +20,4 @@ pre-commit = "*"
 pytest = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
