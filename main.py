@@ -6,6 +6,7 @@ import re
 from constants import AMAZON
 from FirefoxWebDriver import FireFoxBrowser
 from PriceHistory import PriceHistory
+from record.methods import init_connection, list_of_asins, mock_data
 
 
 def extract_asin(url: str):
@@ -31,7 +32,7 @@ def track_item(browser: FireFoxBrowser, asin: str):
     return PriceHistory(browser, asin)
 
 
-def regular_tracking(list_of_asins):
+def regular_tracking(conn):
     # This will be ran once a day
     # get list of all asins from database
     # for each asin:
@@ -47,23 +48,32 @@ def regular_tracking(list_of_asins):
 
     # list of asins will be taken from database
 
-    for asin in list_of_asins:
-        browser = FireFoxBrowser(headless=False, random_user_agent=True)
-        with browser:
+    asins = list_of_asins(conn)
 
+    browser = FireFoxBrowser(headless=False, random_user_agent=True)
+    with browser:
+        ph_list = []
+        for asin in asins:
+            print("tracking", asin)
             item = track_item(browser, asin)
-            item.__dict__
+            ph_list.append(item.__dict__)
 
-            # output list of pricehistory, add to database (use sqlalchemy)
-
-    pass
+    return ph_list
 
 
 if __name__ == "__main__":
-    x = "https://www.amazon.co.uk/dp/B07PPTN43Y"
-    browser = FireFoxBrowser(headless=False, random_user_agent=True)
-    with browser:
-        asin = extract_asin(x)
-        item = track_item(browser, asin)
-        print(item.__dict__)
+    # x = "https://www.amazon.co.uk/dp/B07PPTN43Y"
+    # browser = FireFoxBrowser(headless=False, random_user_agent=True)
+    # with browser:
+    #     asin = extract_asin(x)
+    #     item = track_item(browser, asin)
+    #     print(item.__dict__)
+    # pass
+    conn = init_connection()
+
+    mock_data(conn)
+    print("start tracking...")
+    ph_list = regular_tracking(conn)
+    print("done tracking")
+    print(ph_list)
     pass
