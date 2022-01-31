@@ -4,9 +4,9 @@
 import re
 
 from constants import AMAZON
+from database import init_connection, list_of_asins, mock_data
 from FirefoxWebDriver import FireFoxBrowser
 from PriceHistory import PriceHistory
-from record.methods import init_connection, list_of_asins, mock_data
 
 
 def extract_asin(url: str):

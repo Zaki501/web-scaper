@@ -1,10 +1,3 @@
-# Python Web-Scraper 
-
-## Get a screenshot:
-
-```bash
-python app.py <url>
-```
 # Amazon item price tracker
 ## Running the script daily (unix/macOS)
 To run a script at regular intervals, use crontab
