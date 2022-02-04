@@ -13,3 +13,16 @@ For example, to run a the script at midday everyday:
 
 PATH TO VENV: echo $VIRTUAL_ENV
 pyinstaller - make installable for windows
+
+# PostgreSql Database
+Download postgres in backend server, then:
+```bash
+sudo -u postgres psql
+```
+Once you are in the psql CLI, create the Database and grant priveleges:
+```psql
+CREATE DATABASE mydb;
+CREATE USER <name> with encrypted password '<password>';
+GRANT ALL PRIVILEGES ON DATABASE mydb TO <name>;
+```
+The python script will create the tables for you.

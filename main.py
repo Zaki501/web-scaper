@@ -4,7 +4,7 @@
 import re
 
 from constants import AMAZON
-from database import init_connection, list_of_asins, mock_data
+from database import init_connection, list_of_unique_asins, mock_data
 from FirefoxWebDriver import FireFoxBrowser
 from PriceHistory import PriceHistory
 
@@ -48,7 +48,7 @@ def regular_tracking(conn):
 
     # list of asins will be taken from database
 
-    asins = list_of_asins(conn)
+    asins = list_of_unique_asins(conn)
 
     browser = FireFoxBrowser(headless=False, random_user_agent=True)
     with browser:
