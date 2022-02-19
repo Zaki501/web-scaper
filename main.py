@@ -4,7 +4,8 @@
 import re
 
 from constants import AMAZON
-from database import init_connection, list_of_unique_asins, mock_data
+from database.create import init_connection
+from database.methods import list_of_unique_asins
 from FirefoxWebDriver import FireFoxBrowser
 from PriceHistory import PriceHistory
 
@@ -71,9 +72,4 @@ if __name__ == "__main__":
     # pass
     conn = init_connection()
 
-    mock_data(conn)
-    print("start tracking...")
-    ph_list = regular_tracking(conn)
-    print("done tracking")
-    print(ph_list)
     pass
