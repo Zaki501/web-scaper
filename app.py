@@ -13,17 +13,6 @@ from main import item_confirmation
 # from track_item import begin_tracking
 
 
-def main(user_url: str):
-    """Program starts here"""
-    # valid url?
-    #     if so, parse
-    #     else, throw error
-    # amazon or ebay url?
-    #     if not amazon/ebay, throw Error
-    #     else begin amazon or ebay function
-    pass
-
-
 app = Flask(__name__)
 app.secret_key = "rj5sztFrGIG4DTVm_lnx0w"
 # CORS(app)
